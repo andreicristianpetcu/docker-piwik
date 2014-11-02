@@ -11,7 +11,8 @@
 
 
 # Base system is the LTS version of Ubuntu.
-from   base
+FROM phusion/passenger-full:0.9.12
+# from   base
 
 
 # Make sure we don't get notifications we can't answer during building.
@@ -19,8 +20,8 @@ env    DEBIAN_FRONTEND noninteractive
 
 
 # An annoying error message keeps appearing unless you do this.
-run    dpkg-divert --local --rename --add /sbin/initctl
-run    ln -s /bin/true /sbin/initctl
+# run    dpkg-divert --local --rename --add /sbin/initctl
+# run    ln -s /bin/true /sbin/initctl
 
 
 # Download and install everything from the repos and add geo location database
@@ -32,7 +33,7 @@ run    apt-get --yes upgrade --force-yes
 run    apt-get --yes install git supervisor nginx php5-mysql php5-gd mysql-server pwgen wget php5-fpm --force-yes
 run    mkdir -p /srv/www/; cd /srv/www/; git clone -b master https://github.com/piwik/piwik.git --depth 1
 run    cd /srv/www/piwik/misc; wget http://geolite.maxmind.com/download/geoip/database/GeoLiteCity.dat.gz; gzip -d GeoLiteCity.dat.gz
-run    apt-get --yes install php5-cli curl --force-yes
+run    apt-get --yes install php5-cli php5-curl curl --force-yes
 run    cd /srv/www/piwik;  curl -sS https://getcomposer.org/installer | php; php composer.phar install
 
 
