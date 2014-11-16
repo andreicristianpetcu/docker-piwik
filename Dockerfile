@@ -25,11 +25,11 @@ env    DEBIAN_FRONTEND noninteractive
 
 
 # Download and install everything from the repos and add geo location database
-run    apt-get install -y -q software-properties-common
-run    add-apt-repository -y "deb http://archive.ubuntu.com/ubuntu $(lsb_release -sc) universe"
-run    add-apt-repository -y ppa:nginx/stable
-run    apt-get --yes update
-run    apt-get --yes upgrade --force-yes
+# run    apt-get install -y -q software-properties-common
+# run    add-apt-repository -y "deb http://archive.ubuntu.com/ubuntu $(lsb_release -sc) universe"
+# run    add-apt-repository -y ppa:nginx/stable
+# run    apt-get --yes update
+# run    apt-get --yes upgrade --force-yes
 run    apt-get --yes install git supervisor nginx php5-mysql php5-gd mysql-server pwgen wget php5-fpm --force-yes
 run    mkdir -p /srv/www/; cd /srv/www/; git clone -b master https://github.com/piwik/piwik.git --depth 1
 run    cd /srv/www/piwik/misc; wget http://geolite.maxmind.com/download/geoip/database/GeoLiteCity.dat.gz; gzip -d GeoLiteCity.dat.gz
@@ -48,11 +48,11 @@ add    ./supervisor/conf.d/nginx.conf /etc/supervisor/conf.d/nginx.conf
 add    ./supervisor/conf.d/mysqld.conf /etc/supervisor/conf.d/mysqld.conf
 add    ./supervisor/conf.d/php5-fpm.conf /etc/supervisor/conf.d/php5-fpm.conf
 add    ./mysql/my.cnf /etc/mysql/my.cnf
-add    ./scripts/start /start
+# add    ./scripts/start /start
 
 
 # Fix all permissions
-run	   chmod +x /start; chown -R www-data:www-data /srv/www/piwik
+# run	   chmod +x /start; chown -R www-data:www-data /srv/www/piwik
 
 
 # 80 is for nginx web, /data contains static files and database /start runs it.
