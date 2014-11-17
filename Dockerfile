@@ -39,7 +39,7 @@ RUN    cd /srv/www/piwik;  curl -sS https://getcomposer.org/installer | php; php
 
 
 # Load in all of our config files.
-add    ./nginx/nginx.conf /etc/nginx/nginx.conf
+# add    ./nginx/nginx.conf /etc/nginx/nginx.conf
 ADD    ./nginx/sites-enabled/default /etc/nginx/sites-enabled/default
 ADD    ./php5/fpm/php-fpm.conf /etc/php5/fpm/php-fpm.conf
 ADD    ./php5/fpm/php.ini /etc/php5/fpm/php.ini
@@ -52,9 +52,15 @@ RUN apt-get install nmap telnet elinks -y
 ADD ./mysql/mysql /build/runit/mysql
 # RUN ln -s /build/runit/mysql /etc/service/mysql/run
 ADD    ./mysql/my.cnf /etc/mysql/my.cnf
+RUN touch /var/run/php5-fpm.sock
+RUN chown www-data /var/run/php5-fpm.sock
 RUN rm -f /etc/service/nginx/down
+RUN chown -R www-data:www-data /srv/www/piwik
+RUN chmod -R 0755 /srv/www/piwik/tmp
 # ADD    ./scripts/start /start
 
+# run /etc/init.d/php5-fpm start
+RUN sed -i '/passenger/d' /etc/nginx/nginx.conf
 
 # Fix all permissions
 # RUN	   chmod +x /start; chown -R www-data:www-data /srv/www/piwik
