@@ -64,7 +64,13 @@ RUN sed -i '/passenger/d' /etc/nginx/nginx.conf
 
 # Fix all permissions
 # RUN	   chmod +x /start; chown -R www-data:www-data /srv/www/piwik
+# RUN touch /var/run/php5-fpm.sock
+# RUN chmod 777 /var/run/php5-fpm.sock
 ADD scripts/start_fpm.sh /etc/my_init.d/01_start_fpm.sh
+ADD mysql/my.cnf /etc/mysql/my.cnf
+ADD scripts/start_mysql.sh /etc/my_init.d/02_start_mysql.sh
+# RUN mkdir -p /data/mysql
+# install mysql-server
 
 # 80 is for nginx web, /data contains static files and database /start runs it.
 expose 80
