@@ -71,6 +71,9 @@ ADD mysql/my.cnf /etc/mysql/my.cnf
 ADD scripts/start_mysql.sh /etc/my_init.d/02_start_mysql.sh
 # RUN mkdir -p /data/mysql
 # install mysql-server
+ADD piwik/config.ini.php srv/www/piwik/config/config.ini.php
+ADD piwik/init_piwik_db.sql srv/www/piwik/init_piwik_db.sql
+RUN apt-get install silversearcher-ag -y
 
 # 80 is for nginx web, /data contains static files and database /start runs it.
 expose 80
